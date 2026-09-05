@@ -1,0 +1,633 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Analysis Mngr API",
+        "version": "2.0.1",
+        "description": "API para el analisis de codigo fuente"
+    },
+    "servers": [
+        {
+            "url": "https://test.com/api/v1",
+            "description": "Staging API Server"
+        },
+        {
+            "url": "https://prod.com/api/v1",
+            "description": "Produccion API Server"
+        }
+    ],
+    "paths": {
+        "/api/v1/analysis": {
+            "summary": "Api para el analisis de codigo fuente",
+            "description": "Recurso para analizar codigo fuente de un repositorio o archivo comprimido",
+            "post": {
+                "tags": ["Analyze V1"],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/AnalyzeBody"
+                },
+                "responses": {
+                    "default": {
+                        "$ref": "#/components/responses/ResponseDefault"
+                    },
+                    "200": {
+                        "$ref": "#/components/responses/succesfullCreateAllied"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundResponse"
+                    },
+                    "415": {
+                        "$ref": "#/components/responses/UnsupportedMediaTypeResponse"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/TooManyRequestsResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalError"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "operationId": "analyze",
+                "summary": "Analizar un repositorio",
+                "description": "Recurso para analizar un repositorio"
+            },
+            "options": {
+                "tags": ["Analyze V1"],
+                "responses": {
+                    "default": {
+                        "$ref": "#/components/responses/ResponseDefault"
+                    },
+                    "200": {
+                        "headers": {
+                            "Access-Control-Allow-Headers": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+                            },
+                            "Access-Control-Allow-Methods": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Methods"
+                            },
+                            "Access-Control-Allow-Origin": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        },
+                        "description": "200 response"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundResponse"
+                    },
+                    "415": {
+                        "$ref": "#/components/responses/UnsupportedMediaTypeResponse"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/TooManyRequestsResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalError"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "x-amazon-apigateway-integration": {
+                    "type": "mock",
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseParameters": {
+                                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-Channel,X-CustIdentType,X-CustIdentNum,X-IPAddr,x-api-key'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            }
+                        }
+                    },
+                    "requestTemplates": {
+                        "application/json": "{\"statusCode\": 200}"
+                    },
+                    "passthroughBehavior": "when_no_match"
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/X-RqUID"
+                },
+                {
+                    "$ref": "#/components/parameters/X-Type"
+                }
+            ]
+        },
+        "/api/v1/attachments": {
+            "summary": "Api para generar url para la subida de archivos",
+            "description": "Recurso para generar url para la subida de archivos }",
+            "post": {
+                "tags": ["Attachments"],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/AttachmentsBody"
+                },
+                "responses": {
+                    "default": {
+                        "$ref": "#/components/responses/ResponseDefault"
+                    },
+                    "200": {
+                        "$ref": "#/components/responses/succesfullCreateAllied"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundResponse"
+                    },
+                    "415": {
+                        "$ref": "#/components/responses/UnsupportedMediaTypeResponse"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/TooManyRequestsResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalError"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "operationId": "analyze",
+                "summary": "Analizar un repositorio",
+                "description": "Recurso para analizar un repositorio"
+            },
+            "options": {
+                "tags": ["Attachments"],
+                "responses": {
+                    "default": {
+                        "$ref": "#/components/responses/ResponseDefault"
+                    },
+                    "200": {
+                        "headers": {
+                            "Access-Control-Allow-Headers": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+                            },
+                            "Access-Control-Allow-Methods": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Methods"
+                            },
+                            "Access-Control-Allow-Origin": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        },
+                        "description": "200 response"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundResponse"
+                    },
+                    "415": {
+                        "$ref": "#/components/responses/UnsupportedMediaTypeResponse"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/TooManyRequestsResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalError"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "x-amazon-apigateway-integration": {
+                    "type": "mock",
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseParameters": {
+                                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-Channel,X-CustIdentType,X-CustIdentNum,X-IPAddr,x-api-key'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            }
+                        }
+                    },
+                    "requestTemplates": {
+                        "application/json": "{\"statusCode\": 200}"
+                    },
+                    "passthroughBehavior": "when_no_match"
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/X-RqUID"
+                }
+            ]
+        }
+    },
+    "components": {
+        "schemas": {
+            "MsgRsErrorDef": {
+                "title": "Root Type for MsgRsErrorDef",
+                "description": "Root Type for MsgRsErrorDef",
+                "type": "object",
+                "properties": {
+                    "Status": {
+                        "$ref": "#/components/schemas/Status"
+                    },
+                    "EndDt": {
+                        "format": "date-time",
+                        "description": "Fecha Error",
+                        "maxLength": 20,
+                        "minLength": 1,
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Status": {
+                "type": "object",
+                "properties": {
+                    "ServerStatusCode": {
+                        "description": "Códigos de error string",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9]*$",
+                        "type": "string"
+                    },
+                    "Severity": {
+                        "description": "Severity Error",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9]*$",
+                        "type": "string"
+                    },
+                    "StatusCode": {
+                        "format": "int32",
+                        "description": "Códigos de error numérico",
+                        "maximum": 600,
+                        "minimum": 0,
+                        "type": "integer"
+                    },
+                    "StatusDesc": {
+                        "description": "Descripción del error",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9]*$",
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "BodyAnalyze": {
+                "title": "Root Type for BodyAuthentication",
+                "description": "Informacion necesaria para la creacion de aliado",
+                "type": "object",
+                "required": ["requestUrl"],
+                "properties": {
+                    "requestUrl": {
+                        "description": "URL del repositorio o archivo a analizar",
+                        "maxLength": 2048,
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "BodyAttachments": {
+                "title": "Root Type for BodyAttachments",
+                "description": "Informacion necesaria para la creacion de aliado",
+                "type": "object",
+                "required": ["fileName", "fileType"],
+                "properties": {
+                    "fileName": {
+                        "description": "Nombre del archivo a subir",
+                        "maxLength": 100,
+                        "type": "string"
+                    },
+                    "fileType": {
+                        "description": "Tipo de archivo a subir",
+                        "maxLength": 50,
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "responses": {
+            "BadRequestResponse": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida en caso de que alguno de los parámetros enviados no corresponda con los parámetros esperados",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "400",
+                                        "Severity": "Error",
+                                        "StatusCode": 400,
+                                        "StatusDesc": "Problems Status 400"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida en caso de que alguno de los parámetros enviados no corresponda con los parámetros esperados"
+            },
+            "NotFoundResponse": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida en caso de no encontrar el recurso solicitado",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "404",
+                                        "Severity": "Error",
+                                        "StatusCode": 404,
+                                        "StatusDesc": "Problems Status 404"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida en caso de no encontrar el recurso solicitado"
+            },
+            "InternalError": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida en caso de ocurrir un error inesperado en la aplicación",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "500",
+                                        "Severity": "Error",
+                                        "StatusCode": 500,
+                                        "StatusDesc": "Problems Status 500"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida en caso de ocurrir un error inesperado en la aplicación"
+            },
+            "UnauthorizedResponse": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida en caso de presentarse una solicitud no autorizada",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "401",
+                                        "Severity": "Error",
+                                        "StatusCode": 401,
+                                        "StatusDesc": "Problems Status 401"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida en caso de presentarse una solicitud no autorizada"
+            },
+            "UnsupportedMediaTypeResponse": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida cuando el servidor no acepta la solicitud porque el formato de carga útil está en una formato no compatible",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "415",
+                                        "Severity": "Error",
+                                        "StatusCode": 415,
+                                        "StatusDesc": "Problems Status 415"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida cuando el servidor no acepta la solicitud porque el formato de carga útil está en una formato no compatible"
+            },
+            "ForbiddenResponse": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida cuando el servidor deniega el acceso al recurso solicitado",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "403",
+                                        "Severity": "Error",
+                                        "StatusCode": 403,
+                                        "StatusDesc": "Problems Status 403"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida cuando el servidor deniega el acceso al recurso solicitado"
+            },
+            "TooManyRequestsResponse": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "Respuesta obtenida cuando el servidor recibe una carga de solicitudes mayor a la que puede soportar",
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "429",
+                                        "Severity": "Error",
+                                        "StatusCode": 429,
+                                        "StatusDesc": "Problems Status 429"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida cuando el servidor recibe una carga de solicitudes mayor a la que puede soportar"
+            },
+            "ResponseDefault": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MsgRsErrorDef"
+                        },
+                        "examples": {
+                            "MsgRsErrorDefExample": {
+                                "description": "unexpected error",
+                                "value": {
+                                    "Status": {
+                                        "Severity": "Error"
+                                    },
+                                    "EndDt": "2018-02-10T09:30Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "unexpected error"
+            }
+        },
+        "parameters": {
+            "X-RqUID": {
+                "example": "123e4567-e89b-12d3-a456-426614174000",
+                "name": "X-RqUID",
+                "description": "Identificador único de la petición, se recomienda usar un UUID v4",
+                "schema": {
+                    "maxLength": 50,
+                    "pattern": "^[A-Za-z0-9-]+$",
+                    "type": "string"
+                },
+                "in": "header",
+                "required": true
+            },
+            "X-Type": {
+                "example": "url",
+                "name": "X-Type",
+                "description": "Tipo de contenido del request, puede ser url o file",
+                "schema": {
+                    "enum": ["url", "file"],
+                    "type": "string"
+                },
+                "in": "header",
+                "required": true
+            }
+        },
+        "examples": {},
+        "requestBodies": {
+            "AnalyzeBody": {
+                "description": "Cuerpo de la solicitud para analizar un codigo",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BodyAnalyze"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "AttachmentsBody": {
+                "description": "Cuerpo de la solicitud para generar url de subida de archivos",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/BodyAttachments"
+                        }
+                    }
+                },
+                "required": true
+            }
+        },
+        "headers": {
+            "Access-Control-Allow-Origin": {
+                "schema": {
+                    "maxLength": 20,
+                    "pattern": "^(?:[0-9]{1,3}/.){3}[0-9]{1,3}$",
+                    "type": "string"
+                }
+            },
+            "Access-Control-Allow-Methods": {
+                "schema": {
+                    "maxLength": 20,
+                    "pattern": "^(?:[0-9]{1,3}/.){3}[0-9]{1,3}$",
+                    "type": "string"
+                }
+            },
+            "Access-Control-Allow-Headers": {
+                "schema": {
+                    "maxLength": 20,
+                    "pattern": "^(?:[0-9]{1,3}/.){3}[0-9]{1,3}$",
+                    "type": "string"
+                }
+            }
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "description": "Api key asignada para consumir el api",
+                "name": "x-api-key",
+                "in": "header",
+                "x-amazon-apigateway-api-key-source": "HEADER"
+            }
+        }
+    }
+}

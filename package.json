@@ -1,0 +1,49 @@
+{
+    "name": "analysis-mngr",
+    "version": "1.0.0",
+    "description": "Repositorio para el analisis de codigo",
+    "homepage": "https://github.com/jesseruu/analysis-mngr#readme",
+    "bugs": {
+        "url": "https://github.com/jesseruu/analysis-mngr/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jesseruu/analysis-mngr.git"
+    },
+    "license": "MIT",
+    "author": "Jesser Lemus",
+    "main": "app.ts",
+    "type": "commonjs",
+    "scripts": {
+        "start": "export DEBUG=api:* && tsx app.ts",
+        "test": "tsx --test test/unit/**/*.test.ts",
+        "prettier:all": "prettier \"**/*.{ts,js,json,html,scss,md}\" --write",
+        "prettier": "prettier \"**/*.{ts,js,json,html,scss,md}\" --check"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/debug": "^4.1.13",
+        "@types/express": "^5.0.6",
+        "@types/morgan": "^1.9.10",
+        "@types/node": "^26.4.1",
+        "@types/unzipper": "^0.10.11",
+        "prettier": "3.9.6",
+        "typescript": "^7.0.2"
+    },
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.124.0",
+        "@aws-sdk/client-bedrock-runtime": "^3.1127.0",
+        "@aws-sdk/client-s3": "^3.1127.0",
+        "@aws-sdk/s3-request-presigner": "^3.1127.0",
+        "cors": "^2.8.6",
+        "debug": "^4.4.3",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "express-intercept": "^1.4.1",
+        "express-openapi-validate": "^0.6.1",
+        "morgan": "^1.12.0",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.23.13",
+        "unzipper": "^0.12.5"
+    }
+}
