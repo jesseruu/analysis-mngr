@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 import { AttachmentService } from '../../src/services/AttachmentService';
 import { S3Service } from '../../src/services/S3Service';
+import config from '../../config';
 
 describe('AttachmentService', () => {
     const originalGetSignedUrl = S3Service.getSignedUrl;
@@ -27,7 +28,7 @@ describe('AttachmentService', () => {
 
         assert.equal(result, 'https://s3.example/upload');
         assert.deepEqual(receivedParams, {
-            Bucket: process.env.BUCKET_NAME,
+            Bucket: config.bucketName,
             Key: 'uploads/repository.zip',
             ContentType: 'application/zip',
         });
