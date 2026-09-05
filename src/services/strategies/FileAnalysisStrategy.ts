@@ -9,7 +9,7 @@ import debugLib from 'debug';
 const debug = debugLib('api:FileAnalysisStrategy');
 
 export class FileAnalysisStrategy implements AnalysisStrategy {
-    public async analyze(request: AnalysisRequest, rquid: string): Promise<AnalysisRequest> {
+    public async analyze(request: AnalysisRequest, rquid: string) {
         if (!request.requestUrl) {
             debug('<%s> Missing external repository object key', rquid);
             throw new AppError('requestUrl is required for external repository analysis', 422);

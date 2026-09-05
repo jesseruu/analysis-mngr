@@ -6,7 +6,9 @@ import { GithubRepositoryAnalysisStrategy } from '../../src/services/strategies/
 
 describe('AnalysisStrategyFactory', () => {
     it('creates the GitHub strategy for url analysis', () => {
-        assert.ok(AnalysisStrategyFactory.create('url') instanceof GithubRepositoryAnalysisStrategy);
+        assert.ok(
+            AnalysisStrategyFactory.create('github') instanceof GithubRepositoryAnalysisStrategy,
+        );
     });
 
     it('creates the external repository strategy for file analysis', () => {
@@ -15,7 +17,7 @@ describe('AnalysisStrategyFactory', () => {
 
     it('rejects unsupported analysis types', () => {
         assert.throws(
-            () => AnalysisStrategyFactory.create('unsupported' as 'url'),
+            () => AnalysisStrategyFactory.create('unsupported' as 'github'),
             /Unsupported analysis type: unsupported/,
         );
     });

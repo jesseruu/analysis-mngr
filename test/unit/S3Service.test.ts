@@ -14,10 +14,13 @@ describe('S3Service', () => {
         const expected = { Body: new Uint8Array([1, 2, 3]), ContentLength: 3 };
         S3Client.prototype.send = (async () => expected) as typeof S3Client.prototype.send;
 
-        const result = await S3Service.getObject({
-            Bucket: 'analysis-bucket',
-            Key: 'uploads/repository.zip',
-        }, 'test-rquid');
+        const result = await S3Service.getObject(
+            {
+                Bucket: 'analysis-bucket',
+                Key: 'uploads/repository.zip',
+            },
+            'test-rquid',
+        );
 
         assert.equal(result, expected);
     });

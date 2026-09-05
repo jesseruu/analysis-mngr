@@ -6,13 +6,13 @@ import debugLib from 'debug';
 
 const debug = debugLib('api:AnalysisStrategyFactory');
 
-export type AnalysisType = 'url' | 'file';
+export type AnalysisType = 'github' | 'file';
 
 export class AnalysisStrategyFactory {
     public static create(type: AnalysisType): AnalysisStrategy {
         debug('Creating analysis strategy type=%s', type);
         switch (type) {
-            case 'url':
+            case 'github':
                 return new GithubRepositoryAnalysisStrategy();
             case 'file':
                 return new FileAnalysisStrategy();

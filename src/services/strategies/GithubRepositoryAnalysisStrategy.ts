@@ -7,7 +7,7 @@ import debugLib from 'debug';
 const debug = debugLib('api:GithubRepositoryAnalysisStrategy');
 
 export class GithubRepositoryAnalysisStrategy implements AnalysisStrategy {
-    public async analyze(request: AnalysisRequest, rquid: string): Promise<AnalysisRequest> {
+    public async analyze(request: AnalysisRequest, rquid: string) {
         const repository = request.requestUrl
             ? RemoteRepositoryService.validateUrl(request.requestUrl)
             : null;

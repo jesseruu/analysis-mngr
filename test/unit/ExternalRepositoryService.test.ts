@@ -13,7 +13,10 @@ describe('ExternalRepositoryService', () => {
         await writeFile(path.join(root, 'src', 'index.ts'), 'export const ok = true;');
 
         const repository = await ExternalRepositoryService.validateRepository(root, 'test-rquid');
-        const structure = await ExternalRepositoryService.getRepositoryStructure(root, 'test-rquid');
+        const structure = await ExternalRepositoryService.getRepositoryStructure(
+            root,
+            'test-rquid',
+        );
         const languages = await ExternalRepositoryService.getLanguages(root, 'test-rquid');
         const sourceFiles = await ExternalRepositoryService.getSourceFiles(
             root,

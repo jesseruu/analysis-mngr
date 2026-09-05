@@ -1,5 +1,7 @@
-export type AnalysisRequest = any;
+export interface AnalysisRequest {
+    requestUrl: string;
+}
 
 export interface AnalysisStrategy {
-    analyze(request: AnalysisRequest, rquid: string): Promise<AnalysisRequest>;
+    analyze(request: AnalysisRequest, rquid: string): Promise<any>;
 }

@@ -137,9 +137,6 @@
             "parameters": [
                 {
                     "$ref": "#/components/parameters/X-RqUID"
-                },
-                {
-                    "$ref": "#/components/parameters/X-Type"
                 }
             ]
         },
@@ -326,11 +323,16 @@
                 "title": "Root Type for BodyAuthentication",
                 "description": "Informacion necesaria para la creacion de aliado",
                 "type": "object",
-                "required": ["requestUrl"],
+                "required": ["requestUrl", "sourceType"],
                 "properties": {
                     "requestUrl": {
                         "description": "URL del repositorio o archivo a analizar",
                         "maxLength": 2048,
+                        "type": "string"
+                    },
+                    "sourceType": {
+                        "description": "Tipo de fuente a analizar, puede ser github o file",
+                        "enum": ["github", "file"],
                         "type": "string"
                     }
                 },
@@ -555,17 +557,6 @@
                 "schema": {
                     "maxLength": 50,
                     "pattern": "^[A-Za-z0-9-]+$",
-                    "type": "string"
-                },
-                "in": "header",
-                "required": true
-            },
-            "X-Type": {
-                "example": "url",
-                "name": "X-Type",
-                "description": "Tipo de contenido del request, puede ser url o file",
-                "schema": {
-                    "enum": ["url", "file"],
                     "type": "string"
                 },
                 "in": "header",

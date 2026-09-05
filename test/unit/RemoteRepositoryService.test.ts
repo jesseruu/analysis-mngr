@@ -10,16 +10,24 @@ afterEach(() => {
 
 describe('RemoteRepositoryService', () => {
     it('maps repository metadata from GitHub', async () => {
-        globalThis.fetch = (async () => new Response(JSON.stringify({
-            name: 'demo',
-            full_name: 'owner/demo',
-            description: 'Demo repository',
-            private: false,
-            default_branch: 'main',
-            visibility: 'public',
-        }), { status: 200 })) as typeof fetch;
+        globalThis.fetch = (async () =>
+            new Response(
+                JSON.stringify({
+                    name: 'demo',
+                    full_name: 'owner/demo',
+                    description: 'Demo repository',
+                    private: false,
+                    default_branch: 'main',
+                    visibility: 'public',
+                }),
+                { status: 200 },
+            )) as typeof fetch;
 
-        const result = await RemoteRepositoryService.validateRepository('owner', 'demo', 'test-rquid');
+        const result = await RemoteRepositoryService.validateRepository(
+            'owner',
+            'demo',
+            'test-rquid',
+        );
 
         assert.deepEqual(result, {
             name: 'demo',
@@ -36,18 +44,23 @@ describe('RemoteRepositoryService', () => {
 
         await assert.rejects(
             RemoteRepositoryService.validateRepository('owner', 'missing', 'test-rquid'),
-            (error: unknown) => error instanceof Error && error.message.includes('Repository does not exist'),
+            (error: unknown) =>
+                error instanceof Error && error.message.includes('Repository does not exist'),
         );
     });
 
     it('analyzes a GitHub tree response', async () => {
-        globalThis.fetch = (async () => new Response(JSON.stringify({
-            tree: [
-                { path: 'src', type: 'tree' },
-                { path: 'src/index.ts', type: 'blob' },
-                { path: 'angular.json', type: 'blob' },
-            ],
-        }), { status: 200 })) as typeof fetch;
+        globalThis.fetch = (async () =>
+            new Response(
+                JSON.stringify({
+                    tree: [
+                        { path: 'src', type: 'tree' },
+                        { path: 'src/index.ts', type: 'blob' },
+                        { path: 'angular.json', type: 'blob' },
+                    ],
+                }),
+                { status: 200 },
+            )) as typeof fetch;
 
         const result = await RemoteRepositoryService.getRepositoryStructure(
             'owner',
@@ -64,10 +77,13 @@ describe('RemoteRepositoryService', () => {
     it('decodes base64 source files and skips failed files', async () => {
         globalThis.fetch = (async (input: string | URL | Request) => {
             if (String(input).includes('good.ts')) {
-                return new Response(JSON.stringify({
-                    encoding: 'base64',
-                    content: Buffer.from('export const ok = true;').toString('base64'),
-                }), { status: 200 });
+                return new Response(
+                    JSON.stringify({
+                        encoding: 'base64',
+                        content: Buffer.from('export const ok = true;').toString('base64'),
+                    }),
+                    { status: 200 },
+                );
             }
             return new Response('', { status: 404 });
         }) as typeof fetch;

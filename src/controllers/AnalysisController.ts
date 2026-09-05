@@ -7,6 +7,7 @@ import {
     AnalysisType,
 } from '../services/strategies/AnalysisStrategyFactory';
 import { HttpUtils } from '../utilities/HttpUtils';
+import { AttachmentService } from '../services/AttachmentService';
 
 const debug = debugLib('api:AnalysisController');
 
@@ -18,36 +19,34 @@ analysisController.post(
     [validator.validate('post', '/api/v1/analysis')],
     async (req: Request, res: Response) => {
         const rquid = req.header('X-RqUID') as string;
-        const type = req.header('X-Type') as AnalysisType;
+        const { sourceType, requestUrl } = req.body
         debug('<%s> Start to analyze', rquid);
         try {
-            const strategy = AnalysisStrategyFactory.create(type);
+            const strategy = AnalysisStrategyFactory.create(sourceType);
             const result = await strategy.analyze(req.body as AnalysisRequest, rquid);
             res.status(200).send(result);
         } catch (error) {
-            debug('<%s> Analysis failed type=%s', rquid, type);
+            debug('<%s> Analysis failed type=%s', rquid, sourceType);
             HttpUtils.handleError(res, error, rquid);
         }
     },
 );
 
 analysisController.post(
-    '/analysis/attachments',
+    '/attachments',
     [validator.validate('post', '/api/v1/attachments')],
     async (req: Request, res: Response) => {
         const rquid = req.header('X-RqUID') as string;
         const { fileName, fileType } = req.body;
         debug('<%s> Start generate attachment url', rquid);
         try {
-            
-            debug('<%s> Attachment URL generation is not implemented', rquid);
+            const result = await AttachmentService.generateSignedUrl(fileName, fileType, rquid);
+            debug('<%s> Url generated correctly', rquid);
+            res.status(200).send(result);
         } catch (error) {
             debug('<%s> Attachment URL generation failed', rquid);
             HttpUtils.handleError(res, error, rquid);
-            return;
         }
-
-        res.status(200).send('');
     },
 );
 

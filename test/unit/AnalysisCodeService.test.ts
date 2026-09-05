@@ -26,25 +26,31 @@ describe('AnalysisCodeService', () => {
     });
 
     it('preserves a detected architecture', () => {
-        const result = AnalysisCodeService.parseAnalysis(JSON.stringify({
-            summary: 'Summary',
-            detectedArchitecture: 'Layered architecture',
-            risks: [],
-            recommendations: [],
-            detectedPatterns: [],
-        }), 'test-rquid');
+        const result = AnalysisCodeService.parseAnalysis(
+            JSON.stringify({
+                summary: 'Summary',
+                detectedArchitecture: 'Layered architecture',
+                risks: [],
+                recommendations: [],
+                detectedPatterns: [],
+            }),
+            'test-rquid',
+        );
 
         assert.equal(result.detectedArchitecture, 'Layered architecture');
     });
 
     it('prepares a prompt with repository metadata and source paths', () => {
-        const prompt = AnalysisCodeService.preparePrompt({
-            repositoryName: 'owner/repository',
-            description: 'Example repository',
-            frameworks: ['Angular'],
-            languages: { TypeScript: 100 },
-            sourceFiles: [{ path: 'src/app.ts', content: 'export const app = true;' }],
-        }, 'test-rquid');
+        const prompt = AnalysisCodeService.preparePrompt(
+            {
+                repositoryName: 'owner/repository',
+                description: 'Example repository',
+                frameworks: ['Angular'],
+                languages: { TypeScript: 100 },
+                sourceFiles: [{ path: 'src/app.ts', content: 'export const app = true;' }],
+            },
+            'test-rquid',
+        );
 
         assert.match(prompt, /owner\/repository/);
         assert.match(prompt, /Angular/);

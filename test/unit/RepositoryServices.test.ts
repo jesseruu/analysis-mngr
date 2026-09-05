@@ -24,17 +24,25 @@ describe('repository services', () => {
     });
 
     it('extracts GitHub owner and repository names', () => {
-        assert.deepEqual(RemoteRepositoryService.validateUrl('https://github.com/octocat/Hello-World.git'), {
-            owner: 'octocat',
-            repo: 'Hello-World',
-        });
-        assert.equal(RemoteRepositoryService.validateUrl('https://gitlab.com/octocat/Hello-World'), null);
+        assert.deepEqual(
+            RemoteRepositoryService.validateUrl('https://github.com/octocat/Hello-World.git'),
+            {
+                owner: 'octocat',
+                repo: 'Hello-World',
+            },
+        );
+        assert.equal(
+            RemoteRepositoryService.validateUrl('https://gitlab.com/octocat/Hello-World'),
+            null,
+        );
     });
 
     it('rejects a missing local repository directory', async () => {
         await assert.rejects(
             ExternalRepositoryService.validateRepository('/path/that/does/not/exist', 'test-rquid'),
-            (error: unknown) => error instanceof Error && error.message === 'External repository directory does not exist',
+            (error: unknown) =>
+                error instanceof Error &&
+                error.message === 'External repository directory does not exist',
         );
     });
 });
