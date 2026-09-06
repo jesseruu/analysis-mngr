@@ -16,7 +16,7 @@
         }
     ],
     "paths": {
-        "/api/v1/analysis": {
+        "/api/v1/analyses": {
             "summary": "Api para el analisis de codigo fuente",
             "description": "Recurso para analizar codigo fuente de un repositorio o archivo comprimido",
             "post": {

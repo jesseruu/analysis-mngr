@@ -15,13 +15,14 @@ const analysisController = Router();
 const validator = OpenApiValidatorProvider.getValidator();
 
 analysisController.post(
-    '/analysis',
-    [validator.validate('post', '/api/v1/analysis')],
+    '/analyses',
+    [validator.validate('post', '/api/v1/analyses')],
     async (req: Request, res: Response) => {
         const rquid = req.header('X-RqUID') as string;
-        const { sourceType, requestUrl } = req.body
+        const { sourceType } = req.body
         debug('<%s> Start to analyze', rquid);
         try {
+            
             const strategy = AnalysisStrategyFactory.create(sourceType);
             const result = await strategy.analyze(req.body as AnalysisRequest, rquid);
             res.status(200).send(result);

@@ -30,10 +30,11 @@ export class FileAnalysisStrategy implements AnalysisStrategy {
             throw new AppError('S3 object has no ZIP body', 422);
         }
 
-        const extractedPath = await ExternalRepositoryService.extractZip(s3Object.Body, rquid);
-        debug('<%s> S3 ZIP extracted key=%s', rquid, request.requestUrl);
-
+        let extractedPath = '';
         try {
+            extractedPath = await ExternalRepositoryService.extractZip(s3Object.Body, rquid);
+            debug('<%s> S3 ZIP extracted key=%s', rquid, request.requestUrl);
+
             const repository = await ExternalRepositoryService.validateRepository(
                 extractedPath,
                 rquid,
@@ -81,8 +82,8 @@ export class FileAnalysisStrategy implements AnalysisStrategy {
             );
             throw error;
         } finally {
-            await ExternalRepositoryService.removeExtractedRepository(extractedPath, rquid);
             debug('<%s> Temporary extraction removed key=%s', rquid, request.requestUrl);
+            await ExternalRepositoryService.removeExtractedRepository(extractedPath, rquid);
         }
     }
 }
