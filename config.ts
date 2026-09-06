@@ -10,4 +10,5 @@ export default {
     awsRegion: process.env.AWS_REGION || 'us-east-1',
     anthropicApiKey: process.env.ANTHROPIC_API_KEY || '',
     anthropicModel: process.env.ANTHROPIC_MODEL || 'claude-haiku-4-5',
+    jwtSecret: process.env.JWT_SECRET || ''
 };

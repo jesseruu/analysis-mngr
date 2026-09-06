@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import express from 'express';
+import { sign } from 'jsonwebtoken';
 import request from 'supertest';
 import { afterEach, describe, it } from 'node:test';
+import config from '../../config';
 import { analysisController } from '../../src/controllers/AnalysisController';
 import { AnalysisStrategyFactory } from '../../src/services/strategies/AnalysisStrategyFactory';
 import { AttachmentService } from '../../src/services/AttachmentService';
@@ -9,6 +11,8 @@ import { AttachmentService } from '../../src/services/AttachmentService';
 const app = express();
 app.use(express.json());
 app.use('/api/v1', analysisController);
+config.jwtSecret = config.jwtSecret || 'test-secret';
+const authToken = sign({}, config.jwtSecret);
 
 const originalCreate = AnalysisStrategyFactory.create;
 const originalGenerateSignedUrl = AttachmentService.generateSignedUrl;
@@ -35,6 +39,7 @@ describe('AnalysisController', () => {
         const response = await request(app)
             .post('/api/v1/analyses')
             .set('X-RqUID', 'test-rquid')
+            .set('Authorization', `Bearer ${authToken}`)
             .send({ sourceType: 'github', requestUrl: 'https://github.com/owner/repo' });
 
         assert.equal(response.status, 200);
@@ -53,6 +58,7 @@ describe('AnalysisController', () => {
         const response = await request(app)
             .post('/api/v1/analyses')
             .set('X-RqUID', 'test-rquid')
+            .set('Authorization', `Bearer ${authToken}`)
             .send({ sourceType: 'github', requestUrl: 'https://github.com/owner/repo' });
 
         assert.equal(response.status, 500);
@@ -76,6 +82,7 @@ describe('Attachment endpoint', () => {
         const response = await request(app)
             .post('/api/v1/attachments')
             .set('X-RqUID', 'test-rquid')
+            .set('Authorization', `Bearer ${authToken}`)
             .send({ fileName: 'uploads/repository.zip', fileType: 'application/zip' });
 
         assert.equal(response.status, 200);
@@ -93,6 +100,7 @@ describe('Attachment endpoint', () => {
         const response = await request(app)
             .post('/api/v1/attachments')
             .set('X-RqUID', 'test-rquid')
+            .set('Authorization', `Bearer ${authToken}`)
             .send({ fileName: 'repository.zip', fileType: 'application/zip' });
 
         assert.equal(response.status, 500);

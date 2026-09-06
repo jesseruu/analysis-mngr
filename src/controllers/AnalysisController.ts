@@ -2,12 +2,10 @@ import { Request, Response, Router } from 'express';
 import OpenApiValidatorProvider from '../utilities/OpenApiValidatorProvider';
 import debugLib from 'debug';
 import { AnalysisRequest } from '../interfaces/AnalysisStrategy';
-import {
-    AnalysisStrategyFactory,
-    AnalysisType,
-} from '../services/strategies/AnalysisStrategyFactory';
+import { AnalysisStrategyFactory } from '../services/strategies/AnalysisStrategyFactory';
 import { HttpUtils } from '../utilities/HttpUtils';
 import { AttachmentService } from '../services/AttachmentService';
+import { authenticateToken } from '../Middlewares/AuthMiddleware';
 
 const debug = debugLib('api:AnalysisController');
 
@@ -16,13 +14,12 @@ const validator = OpenApiValidatorProvider.getValidator();
 
 analysisController.post(
     '/analyses',
-    [validator.validate('post', '/api/v1/analyses')],
+    [authenticateToken, validator.validate('post', '/api/v1/analyses')],
     async (req: Request, res: Response) => {
         const rquid = req.header('X-RqUID') as string;
         const { sourceType } = req.body
         debug('<%s> Start to analyze', rquid);
         try {
-            
             const strategy = AnalysisStrategyFactory.create(sourceType);
             const result = await strategy.analyze(req.body as AnalysisRequest, rquid);
             res.status(200).send(result);
@@ -35,7 +32,7 @@ analysisController.post(
 
 analysisController.post(
     '/attachments',
-    [validator.validate('post', '/api/v1/attachments')],
+    [authenticateToken, validator.validate('post', '/api/v1/attachments')],
     async (req: Request, res: Response) => {
         const rquid = req.header('X-RqUID') as string;
         const { fileName, fileType } = req.body;

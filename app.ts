@@ -3,6 +3,7 @@ import cors from 'cors';
 import config from './config';
 import morgan from 'morgan';
 import { analysisController } from './src/controllers/AnalysisController';
+import { authencationController } from './src/controllers/AuthenticationController';
 
 const app = express();
 const port = config.apiPort;
@@ -24,6 +25,8 @@ app.use(
 );
 
 app.use(apiPath, analysisController);
+app.use(apiPath, authencationController);
+
 
 app.listen(port, () => {
     console.log(`Analysis mngr listening at port ${port}`);
