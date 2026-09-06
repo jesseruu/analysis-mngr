@@ -27,7 +27,6 @@ app.use(
 app.use(apiPath, analysisController);
 app.use(apiPath, authencationController);
 
-
 app.listen(port, () => {
     console.log(`Analysis mngr listening at port ${port}`);
 });

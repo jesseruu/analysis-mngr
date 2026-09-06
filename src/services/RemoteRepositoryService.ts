@@ -1,7 +1,11 @@
 import config from '../../config';
 import { AppError } from '../utilities/ErrorService';
 import { StructureService } from './StructureService';
-import { NormalizedLanguages, ExternalRepository, RepositorySourceFile } from '../interfaces/IRemote';
+import {
+    NormalizedLanguages,
+    ExternalRepository,
+    RepositorySourceFile,
+} from '../interfaces/IRemote';
 import { RepositoryTreeEntry } from '../interfaces/IStructure';
 import debugLib from 'debug';
 
