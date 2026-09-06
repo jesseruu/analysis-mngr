@@ -16,6 +16,127 @@
         }
     ],
     "paths": {
+        "/api/v1/auth/token": {
+            "summary": "Endpoint para generar un token de autenticación",
+            "description": "Recurso para generar un token de autenticación",
+            "post": {
+                "tags": ["Authentication"],
+                "responses": {
+                    "default": {
+                        "$ref": "#/components/responses/ResponseDefault"
+                    },
+                    "200": {
+                        "$ref": "#/components/responses/succesfullCreateAllied"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundResponse"
+                    },
+                    "415": {
+                        "$ref": "#/components/responses/UnsupportedMediaTypeResponse"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/TooManyRequestsResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalError"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "operationId": "generateToken",
+                "summary": "Generar un token de autenticación",
+                "description": "Recurso para generar un token de autenticación"
+            },
+            "options": {
+                "tags": ["Authentication"],
+                "responses": {
+                    "default": {
+                        "$ref": "#/components/responses/ResponseDefault"
+                    },
+                    "200": {
+                        "headers": {
+                            "Access-Control-Allow-Headers": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+                            },
+                            "Access-Control-Allow-Methods": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Methods"
+                            },
+                            "Access-Control-Allow-Origin": {
+                                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        },
+                        "description": "200 response"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundResponse"
+                    },
+                    "415": {
+                        "$ref": "#/components/responses/UnsupportedMediaTypeResponse"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/TooManyRequestsResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalError"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "x-amazon-apigateway-integration": {
+                    "type": "mock",
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseParameters": {
+                                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-Channel,X-CustIdentType,X-CustIdentNum,X-IPAddr,x-api-key'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            }
+                        }
+                    },
+                    "requestTemplates": {
+                        "application/json": "{\"statusCode\": 200}"
+                    },
+                    "passthroughBehavior": "when_no_match"
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/X-RqUID"
+                }
+            ]
+        },
         "/api/v1/analyses": {
             "summary": "Api para el analisis de codigo fuente",
             "description": "Recurso para analizar codigo fuente de un repositorio o archivo comprimido",
@@ -62,6 +183,11 @@
                 "summary": "Analizar un repositorio",
                 "description": "Recurso para analizar un repositorio"
             },
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
             "options": {
                 "tags": ["Analyze V1"],
                 "responses": {
@@ -186,6 +312,11 @@
                 "summary": "Analizar un repositorio",
                 "description": "Recurso para analizar un repositorio"
             },
+            "security": [
+                {
+                    "BearerAuth": []
+                }
+            ],
             "options": {
                 "tags": ["Attachments"],
                 "responses": {
@@ -612,12 +743,10 @@
             }
         },
         "securitySchemes": {
-            "api_key": {
-                "type": "apiKey",
-                "description": "Api key asignada para consumir el api",
-                "name": "x-api-key",
-                "in": "header",
-                "x-amazon-apigateway-api-key-source": "HEADER"
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
