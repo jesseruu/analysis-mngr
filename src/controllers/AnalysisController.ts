@@ -17,7 +17,7 @@ analysisController.post(
     [authenticateToken, validator.validate('post', '/api/v1/analyses')],
     async (req: Request, res: Response) => {
         const rquid = req.header('X-RqUID') as string;
-        const { sourceType } = req.body
+        const { sourceType } = req.body;
         debug('<%s> Start to analyze', rquid);
         try {
             const strategy = AnalysisStrategyFactory.create(sourceType);
