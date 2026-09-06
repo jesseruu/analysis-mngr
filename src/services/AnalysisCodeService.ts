@@ -31,6 +31,7 @@ export class AnalysisCodeService {
             'detectedArchitecture must describe the architecture pattern found in the repository. If none is detected, use exactly "No architecture detected".',
             'risks, recommendations, and detectedPatterns must be arrays of strings.',
             'For the recommendations and risks give evidence of the files for example to improve.',
+            'Please the results on spanish.',
             `Repository: ${input.repositoryName}`,
             `Description: ${input.description ?? 'Not provided'}`,
             `Frameworks: ${input.frameworks.join(', ') || 'Unknown'}`,
