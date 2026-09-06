@@ -37,6 +37,7 @@ AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=your-aws-access-key
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 BUCKET_NAME=your-analysis-bucket
+JWT_SECRET=your-secret-key
 ```
 
 El SDK de AWS también puede utilizar un rol de IAM, un perfil de AWS o las credenciales del contenedor en lugar de `AWS_ACCESS_KEY_ID` y `AWS_SECRET_ACCESS_KEY`.
@@ -65,14 +66,23 @@ Cada solicitud debe incluir un valor `X-RqUID`. Este identificador se propaga po
 
 ## Analizar un repositorio de GitHub
 
+Antes de hacer cualquier peticion te debes autenticar con el siguiente recurso
+
+```bash
+curl -X POST http://localhost:3000/api/v1/auth/token \
+	-H 'Content-Type: application/json' \
+	-H 'X-RqUID: 123e4567-e89b-12d3-a456-426614174000' \
+```
+Este responde un bearer json web token necesario para los demas endpoints
+
 Envía la URL del repositorio de GitHub en `requestUrl` y utiliza `X-Type: url`:
 
 ```bash
 curl -X POST http://localhost:3000/api/v1/analysis \
 	-H 'Content-Type: application/json' \
 	-H 'X-RqUID: 123e4567-e89b-12d3-a456-426614174000' \
-	-H 'X-Type: url' \
-	-d '{"requestUrl":"https://github.com/octocat/Hello-World"}'
+    -H 'Authorization: Bearer your_generated_token' \
+	-d '{"requestUrl":"https://github.com/octocat/Hello-World", "sourceType": "github"}'
 ```
 
 La estrategia de GitHub realiza los siguientes pasos:
@@ -91,9 +101,9 @@ Primero sube un ZIP al bucket S3 configurado. El cuerpo de la solicitud debe con
 ```bash
 curl -X POST http://localhost:3000/api/v1/analysis \
 	-H 'Content-Type: application/json' \
-	-H 'X-RqUID: 123e4567-e89b-12d3-a456-426614174001' \
-	-H 'X-Type: file' \
-	-d '{"requestUrl":"uploads/example-repository.zip"}'
+	-H 'X-RqUID: 123e4567-e89b-12d3-a456-426614174000' \
+    -H 'Authorization: Bearer your_generated_token' \
+	-d '{"requestUrl":"uploads/example-repository.zip", "sourceType": "file"}'
 ```
 
 La estrategia de archivos realiza los siguientes pasos:
@@ -158,11 +168,10 @@ Comprobar el formato:
 npm run prettier
 ```
 
-El proyecto utiliza el patrón Strategy para seleccionar entre el flujo de análisis de GitHub (`X-Type: url`) y el flujo de análisis de ZIP en S3 (`X-Type: file`). Ambos flujos comparten los servicios de extracción de estructura de repositorios y análisis con Anthropic.
+El proyecto utiliza el patrón Strategy para seleccionar entre el flujo de análisis de GitHub (`"sourceType": "github"`) y el flujo de análisis de ZIP en S3 (`"sourceType": "file"`). Ambos flujos comparten los servicios de extracción de estructura de repositorios y análisis con Anthropic.
 
 ## Notas importantes
 
-- El endpoint de carga de adjuntos a S3 está presente en el contrato de la API, pero la implementación del controlador aún no está completa. Por ahora, sube los archivos ZIP a S3 mediante tu proceso de carga existente.
 - El objeto de S3 debe ser un archivo ZIP.
 - El servidor debe tener acceso de red a GitHub, Amazon S3 y Anthropic.
 - Mantén las credenciales en variables de entorno y rota cualquier credencial que haya sido expuesta.
