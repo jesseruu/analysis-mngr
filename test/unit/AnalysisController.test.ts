@@ -33,7 +33,7 @@ describe('AnalysisController', () => {
         }) as typeof AnalysisStrategyFactory.create;
 
         const response = await request(app)
-            .post('/api/v1/analysis')
+            .post('/api/v1/analyses')
             .set('X-RqUID', 'test-rquid')
             .send({ sourceType: 'github', requestUrl: 'https://github.com/owner/repo' });
 
@@ -51,7 +51,7 @@ describe('AnalysisController', () => {
         })) as typeof AnalysisStrategyFactory.create;
 
         const response = await request(app)
-            .post('/api/v1/analysis')
+            .post('/api/v1/analyses')
             .set('X-RqUID', 'test-rquid')
             .send({ sourceType: 'github', requestUrl: 'https://github.com/owner/repo' });
 
