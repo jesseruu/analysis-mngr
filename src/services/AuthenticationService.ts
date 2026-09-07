@@ -3,6 +3,6 @@ import { sign } from 'jsonwebtoken';
 
 export class AuthencationService {
     static generateJwt() {
-        return sign({}, config.jwtSecret, { expiresIn: '15m' });
+        return sign({}, config.jwtSecret, { expiresIn: '45m' });
     }
 }
